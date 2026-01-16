@@ -142,6 +142,9 @@ function Dashboard() {
                 onExport={selectedDeckId ? () => handleExportDeck(selectedDeckId) : handleExportAll}
                 cardsCount={cards.length}
                 deckName={selectedDeck?.name}
+                decks={decks}
+                selectedDeckId={selectedDeckId}
+                onSelectDeck={handleSelectDeck}
             />
 
             <div className="dashboard-layout">

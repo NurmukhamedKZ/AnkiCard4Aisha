@@ -79,6 +79,7 @@ export const cardsAPI = {
 
         const response = await client.post('/cards/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 180000, // 3 minutes for large PDFs
         });
         return response.data;
     },
