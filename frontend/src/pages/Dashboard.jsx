@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { cardsAPI, decksAPI } from '../api/client';
 import Header from '../components/Header';
 import DeckList from '../components/DeckList';
 import CardGrid from '../components/CardGrid';
-import UploadModal from '../components/UploadModal';
 import EditModal from '../components/EditModal';
 import './Dashboard.css';
 
@@ -12,12 +11,13 @@ function Dashboard() {
     const { user } = useAuth();
     const [cards, setCards] = useState([]);
     const [decks, setDecks] = useState([]);
+    const [pendingUploads, setPendingUploads] = useState([]); // {id, name, status: 'uploading' | 'error'}
     const [selectedDeckId, setSelectedDeckId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [decksLoading, setDecksLoading] = useState(true);
-    const [showUpload, setShowUpload] = useState(false);
     const [editingCard, setEditingCard] = useState(null);
     const [error, setError] = useState('');
+    const fileInputRef = useRef(null);
 
     const fetchDecks = useCallback(async () => {
         try {
@@ -51,10 +51,56 @@ function Dashboard() {
         fetchCards();
     }, [fetchCards]);
 
-    const handleUploadComplete = (newCards) => {
-        setCards([...newCards, ...cards]);
-        setShowUpload(false);
-        fetchDecks(); // Refresh deck list
+    // Handle file upload directly
+    const handleFileUpload = async (file) => {
+        if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
+            setError('Please select a PDF file');
+            return;
+        }
+
+        const uploadId = Date.now();
+        const fileName = file.name.replace('.pdf', '');
+
+        // Add to pending uploads
+        setPendingUploads(prev => [...prev, { id: uploadId, name: fileName, status: 'uploading' }]);
+
+        try {
+            const newCards = await cardsAPI.uploadPDF(file);
+
+            // Remove from pending
+            setPendingUploads(prev => prev.filter(u => u.id !== uploadId));
+
+            // Refresh decks and cards
+            await fetchDecks();
+            setCards(prevCards => [...newCards, ...prevCards]);
+
+        } catch (err) {
+            console.error('Upload failed:', err);
+            // Mark as error
+            setPendingUploads(prev =>
+                prev.map(u => u.id === uploadId ? { ...u, status: 'error' } : u)
+            );
+            setError('Failed to upload PDF. Please try again.');
+        }
+    };
+
+    // Trigger file input
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    // Handle file selection
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleFileUpload(file);
+            e.target.value = ''; // Reset input
+        }
+    };
+
+    // Remove pending upload (after error)
+    const handleRemovePending = (uploadId) => {
+        setPendingUploads(prev => prev.filter(u => u.id !== uploadId));
     };
 
     const handleSelectDeck = (deckId) => {
@@ -68,7 +114,7 @@ function Dashboard() {
             if (selectedDeckId === deckId) {
                 setSelectedDeckId(null);
             }
-            fetchCards(); // Refresh cards
+            fetchCards();
         } catch (err) {
             setError('Failed to delete deck');
         }
@@ -111,7 +157,7 @@ function Dashboard() {
         try {
             await cardsAPI.deleteCard(id);
             setCards(cards.filter(c => c.id !== id));
-            fetchDecks(); // Update card counts
+            fetchDecks();
         } catch (err) {
             setError('Failed to delete card');
         }
@@ -137,8 +183,17 @@ function Dashboard() {
 
     return (
         <div className="dashboard page">
+            {/* Hidden file input */}
+            <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".pdf"
+                style={{ display: 'none' }}
+            />
+
             <Header
-                onUpload={() => setShowUpload(true)}
+                onUpload={handleUploadClick}
                 onExport={selectedDeckId ? () => handleExportDeck(selectedDeckId) : handleExportAll}
                 cardsCount={cards.length}
                 deckName={selectedDeck?.name}
@@ -150,10 +205,12 @@ function Dashboard() {
             <div className="dashboard-layout">
                 <DeckList
                     decks={decks}
+                    pendingUploads={pendingUploads}
                     selectedDeckId={selectedDeckId}
                     onSelectDeck={handleSelectDeck}
                     onDeleteDeck={handleDeleteDeck}
                     onExportDeck={handleExportDeck}
+                    onRemovePending={handleRemovePending}
                     loading={decksLoading}
                 />
 
@@ -175,7 +232,7 @@ function Dashboard() {
                             <div className="empty-icon">📄</div>
                             <h2>{selectedDeckId ? 'No Cards in This Deck' : 'No Cards Yet'}</h2>
                             <p className="text-muted">Upload a PDF to generate your first flashcards</p>
-                            <button className="btn btn-primary" onClick={() => setShowUpload(true)}>
+                            <button className="btn btn-primary" onClick={handleUploadClick}>
                                 Upload PDF
                             </button>
                         </div>
@@ -188,13 +245,6 @@ function Dashboard() {
                     )}
                 </main>
             </div>
-
-            {showUpload && (
-                <UploadModal
-                    onClose={() => setShowUpload(false)}
-                    onComplete={handleUploadComplete}
-                />
-            )}
 
             {editingCard && (
                 <EditModal
