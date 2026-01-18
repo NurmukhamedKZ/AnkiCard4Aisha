@@ -1,11 +1,8 @@
 import { useState, useRef } from 'react';
-import { cardsAPI } from '../api/client';
 import './Modal.css';
 
-function UploadModal({ onClose, onComplete }) {
-    const [file, setFile] = useState(null);
+function UploadModal({ onClose, onFileSelect }) {
     const [dragActive, setDragActive] = useState(false);
-    const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
     const fileInputRef = useRef(null);
 
@@ -26,8 +23,8 @@ function UploadModal({ onClose, onComplete }) {
 
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile?.type === 'application/pdf') {
-            setFile(droppedFile);
-            setError('');
+            onFileSelect(droppedFile);
+            onClose();
         } else {
             setError('Please upload a PDF file');
         }
@@ -36,24 +33,8 @@ function UploadModal({ onClose, onComplete }) {
     const handleFileSelect = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            setFile(selectedFile);
-            setError('');
-        }
-    };
-
-    const handleUpload = async () => {
-        if (!file) return;
-
-        setUploading(true);
-        setError('');
-
-        try {
-            const newCards = await cardsAPI.uploadPDF(file);
-            onComplete(newCards);
-        } catch (err) {
-            setError(err.response?.data?.detail || 'Failed to process PDF. Please try again.');
-        } finally {
-            setUploading(false);
+            onFileSelect(selectedFile);
+            onClose();
         }
     };
 
@@ -67,7 +48,7 @@ function UploadModal({ onClose, onComplete }) {
 
                 <div className="modal-body">
                     <div
-                        className={`upload-zone ${dragActive ? 'active' : ''} ${file ? 'has-file' : ''}`}
+                        className={`upload-zone ${dragActive ? 'active' : ''}`}
                         onDragEnter={handleDrag}
                         onDragLeave={handleDrag}
                         onDragOver={handleDrag}
@@ -82,22 +63,12 @@ function UploadModal({ onClose, onComplete }) {
                             hidden
                         />
 
-                        {file ? (
-                            <div className="file-preview">
-                                <div className="file-icon">📄</div>
-                                <div className="file-name">{file.name}</div>
-                                <div className="file-size">{(file.size / 1024 / 1024).toFixed(2)} MB</div>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="upload-icon">📤</div>
-                                <p className="upload-text">
-                                    <strong>Drop your PDF here</strong>
-                                    <br />
-                                    or click to browse
-                                </p>
-                            </>
-                        )}
+                        <div className="upload-icon">📤</div>
+                        <p className="upload-text">
+                            <strong>Drop your PDF here</strong>
+                            <br />
+                            or click to browse
+                        </p>
                     </div>
 
                     {error && <div className="modal-error">{error}</div>}
@@ -110,20 +81,6 @@ function UploadModal({ onClose, onComplete }) {
                 <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={onClose}>
                         Cancel
-                    </button>
-                    <button
-                        className="btn btn-primary"
-                        onClick={handleUpload}
-                        disabled={!file || uploading}
-                    >
-                        {uploading ? (
-                            <>
-                                <span className="spinner"></span>
-                                Generating Cards...
-                            </>
-                        ) : (
-                            'Generate Cards'
-                        )}
                     </button>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import DeckList from '../components/DeckList';
 import CardGrid from '../components/CardGrid';
 import EditModal from '../components/EditModal';
+import UploadModal from '../components/UploadModal';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -16,6 +17,7 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [decksLoading, setDecksLoading] = useState(true);
     const [editingCard, setEditingCard] = useState(null);
+    const [showUpload, setShowUpload] = useState(false);
     const [error, setError] = useState('');
     const fileInputRef = useRef(null);
 
@@ -93,9 +95,9 @@ function Dashboard() {
         }
     };
 
-    // Trigger file input
+    // Show upload modal
     const handleUploadClick = () => {
-        fileInputRef.current?.click();
+        setShowUpload(true);
     };
 
     // Handle file selection
@@ -254,6 +256,16 @@ function Dashboard() {
                     )}
                 </main>
             </div>
+
+            {showUpload && (
+                <UploadModal
+                    onClose={() => setShowUpload(false)}
+                    onFileSelect={(file) => {
+                        setShowUpload(false);
+                        handleFileUpload(file);
+                    }}
+                />
+            )}
 
             {editingCard && (
                 <EditModal
