@@ -47,9 +47,18 @@ function Dashboard() {
         fetchDecks();
     }, [fetchDecks]);
 
+    // Auto-select first deck when decks load
     useEffect(() => {
-        fetchCards();
-    }, [fetchCards]);
+        if (decks.length > 0 && selectedDeckId === null) {
+            setSelectedDeckId(decks[0].id);
+        }
+    }, [decks, selectedDeckId]);
+
+    useEffect(() => {
+        if (selectedDeckId !== null) {
+            fetchCards();
+        }
+    }, [fetchCards, selectedDeckId]);
 
     // Handle file upload directly
     const handleFileUpload = async (file) => {

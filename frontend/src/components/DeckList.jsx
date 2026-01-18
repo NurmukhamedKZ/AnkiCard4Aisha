@@ -40,17 +40,6 @@ function DeckList({ decks, pendingUploads = [], selectedDeckId, onSelectDeck, on
             </div>
 
             <div className="deck-items">
-                {/* All Cards option */}
-                <div
-                    className={`deck-item ${selectedDeckId === null ? 'active' : ''}`}
-                    onClick={() => onSelectDeck(null)}
-                >
-                    <div className="deck-info">
-                        <span className="deck-icon">📚</span>
-                        <span className="deck-name">All Cards</span>
-                    </div>
-                </div>
-
                 {/* Pending uploads - show at top with loading */}
                 {pendingUploads.map(upload => (
                     <div key={upload.id} className={`deck-item pending ${upload.status === 'error' ? 'error' : ''}`}>

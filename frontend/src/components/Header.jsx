@@ -23,7 +23,6 @@ function Header({ onUpload, onExport, cardsCount, deckName, decks, selectedDeckI
                             onChange={(e) => onSelectDeck(e.target.value ? parseInt(e.target.value) : null)}
                             className="deck-dropdown"
                         >
-                            <option value="">All Decks</option>
                             {decks.map(deck => (
                                 <option key={deck.id} value={deck.id}>
                                     {deck.name} ({deck.card_count})
