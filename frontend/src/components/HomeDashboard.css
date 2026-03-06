@@ -1,0 +1,337 @@
+/* Home Dashboard Styles */
+.home-dashboard {
+    padding: 32px;
+    max-width: 1400px;
+    /* Increased width for 2-column layout */
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 2-Column Layout */
+.home-columns {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    /* Main content + 350px Sidebar */
+    gap: 32px;
+}
+
+.home-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+/* Sections */
+.home-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Folders Grid */
+.folders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.folder-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.folder-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+}
+
+.folder-icon {
+    font-size: 1.5rem;
+}
+
+.folder-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.folder-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.folder-info span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Decks Grid */
+.decks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.deck-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.deck-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-accent);
+}
+
+.deck-card-color {
+    height: 120px;
+    width: 100%;
+}
+
+.deck-card-content {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.deck-card-content h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.deck-card-stats {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.sc-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+.sc-badge-outline {
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+/* Create Card */
+.deck-card.create-card {
+    background: transparent;
+    border: 2px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: 12px;
+}
+
+.deck-card.create-card:hover {
+    border-color: var(--accent);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.create-icon {
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+/* Sidebar & Todo List */
+.home-sidebar {
+    position: relative;
+}
+
+.todo-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    position: sticky;
+    top: 24px;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.todo-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.todo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.todo-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.todo-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.todo-checkbox-wrapper {
+    padding-top: 4px;
+}
+
+.todo-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    transition: all 0.2s;
+}
+
+.todo-checkbox:hover {
+    border-color: var(--accent);
+}
+
+.todo-checkbox.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.todo-content {
+    flex: 1;
+}
+
+.todo-text {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.todo-subtext {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.todo-points {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8B5CF6;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.todo-action-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.todo-action-btn:hover {
+    background: var(--accent-hover);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .home-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .home-sidebar {
+        margin-top: 24px;
+    }
+
+    .todo-panel {
+        position: static;
+    }
+}

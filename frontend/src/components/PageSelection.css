@@ -1,0 +1,132 @@
+.page-selection-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-selection-container {
+    background: var(--bg-card);
+    width: 90%;
+    height: 90%;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--text-primary);
+}
+
+.page-selection-header {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+}
+
+.selection-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.pdf-preview-grid {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    background: var(--bg-primary);
+}
+
+/* react-pdf Document creates a div, we want its children to flow in our grid */
+.react-pdf__Document {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.pdf-page-item {
+    position: relative;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s;
+    background: white;
+    /* Pages are usually white */
+}
+
+.pdf-page-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-page-item.selected {
+    border-color: var(--accent);
+}
+
+.pdf-page-item canvas {
+    display: block;
+    border-radius: 4px;
+}
+
+.page-checkbox {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background: var(--accent);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.pdf-page-item.selected .page-checkbox {
+    opacity: 1;
+}
+
+.pdf-page-item:hover .page-checkbox {
+    opacity: 0.8;
+}
+
+.page-number {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.page-selection-footer {
+    padding: 1rem 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+}
+
+.selection-count {
+    font-weight: bold;
+}
+
+.footer-actions {
+    display: flex;
+    gap: 1rem;
+}

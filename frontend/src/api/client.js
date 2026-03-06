@@ -59,8 +59,21 @@ export const decksAPI = {
         return response.data;
     },
 
+    createDeck: async (name, folderId = null) => {
+        const response = await client.post('/cards/decks', {
+            name,
+            folder_id: folderId
+        });
+        return response.data;
+    },
+
     deleteDeck: async (id) => {
         await client.delete(`/cards/decks/${id}`);
+    },
+
+    updateDeck: async (id, data) => {
+        const response = await client.put(`/cards/decks/${id}`, data);
+        return response.data;
     },
 
     exportDeck: async (id) => {
@@ -73,9 +86,12 @@ export const decksAPI = {
 
 // Cards API
 export const cardsAPI = {
-    uploadPDF: async (file) => {
+    uploadPDF: async (file, pages = null) => {
         const formData = new FormData();
         formData.append('file', file);
+        if (pages) {
+            formData.append('pages', pages);
+        }
 
         const response = await client.post('/cards/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -105,6 +121,105 @@ export const cardsAPI = {
         });
         return response.data;
     },
+
+    // Import cards from parsed CSV/Quizlet data
+    importCSV: async (cards, deckName) => {
+        const response = await client.post('/cards/import/csv', {
+            cards,
+            deck_name: deckName,
+        });
+        return response.data;
+    },
+
+    // Import cards from Anki .apkg file
+    importAnki: async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await client.post('/cards/import/anki', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 180000,
+        });
+        return response.data;
+    },
+
+    // Generate cards from plain text using AI
+    generateFromText: async (text, deckName) => {
+        const response = await client.post('/cards/generate/text', {
+            text,
+            deck_name: deckName,
+        }, {
+            timeout: 180000,
+        });
+        return response.data;
+    },
+
+    // Generate cards from PowerPoint file using AI
+    importPPTX: async (file, deckName) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('deck_name', deckName);
+
+        const response = await client.post('/cards/import/pptx', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 180000,
+        });
+        return response.data;
+    },
+};
+
+// Folders API
+export const foldersAPI = {
+    createFolder: async (name, color = null, parentId = null) => {
+        const response = await client.post('/cards/folders', {
+            name,
+            color,
+            parent_id: parentId
+        });
+        return response.data;
+    },
+
+    updateFolder: async (id, data) => {
+        const response = await client.put(`/cards/folders/${id}`, data);
+        return response.data;
+    },
+
+    getFolders: async () => {
+        const response = await client.get('/cards/folders');
+        return response.data;
+    },
+
+    deleteFolder: async (id) => {
+        await client.delete(`/cards/folders/${id}`);
+    },
+};
+
+// Study API
+export const studyAPI = {
+    getStats: async (deckId) => {
+        const response = await client.get(`/cards/study/${deckId}/stats`);
+        return response.data;
+    },
+
+    getNextCard: async (deckId, mode, sessionCards = [], shuffle = false) => {
+        const response = await client.post('/cards/study/next', {
+            deck_id: deckId,
+            mode: mode,
+            session_cards: sessionCards,
+            shuffle: shuffle
+        });
+        return response.data;
+    },
+
+    submitReview: async (cardId, mode, quality = null, answer = null) => {
+        const response = await client.post('/cards/study/review', {
+            card_id: cardId,
+            mode: mode,
+            quality: quality,
+            answer: answer
+        });
+        return response.data;
+    }
 };
 
 export default client;

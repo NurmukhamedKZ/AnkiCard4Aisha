@@ -1,0 +1,450 @@
+.landing-page {
+    background: radial-gradient(circle at top center, #1e1e24 0%, var(--bg-primary) 80%);
+    min-height: 100vh;
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.landing-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(30, 30, 36, 0.7);
+    /* Dark semi-transparent */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.landing-nav.scrolled {
+    background: rgba(30, 30, 36, 0.9);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 9rem 0 10rem;
+    /* Increased top padding for fixed header */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Central Text */
+.hero-center-content {
+    text-align: center;
+    max-width: 800px;
+    z-index: 10;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-lg {
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+}
+
+/* Specific Floating Cards */
+.hero-cards-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to text if overlapping */
+    z-index: 1;
+}
+
+.specific-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.85);
+    /* Glassy white */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #1f2937;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    width: 220px;
+    min-height: 260px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.specific-card:hover {
+    transform: scale(1.05);
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+/* Card Positioning */
+.anatomy-card {
+    top: 10%;
+    left: 5%;
+    transform: rotate(-8deg);
+}
+
+.english-card {
+    top: 15%;
+    right: 5%;
+    transform: rotate(6deg);
+}
+
+.japanese-card {
+    bottom: 15%;
+    left: 10%;
+    transform: rotate(4deg);
+}
+
+.physics-card {
+    bottom: 10%;
+    right: 8%;
+    transform: rotate(-5deg);
+    width: 220px;
+}
+
+/* Card Internals */
+.card-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.card-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+.blue-badge {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.red-badge {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.purple-badge {
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.orange-badge {
+    background: #fff7ed;
+    color: #f97316;
+}
+
+.card-image-area {
+    flex: 1;
+    background: #f9fafb;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Anatomy Skeleton */
+.skeleton-svg {
+    width: 100px;
+    height: 100px;
+}
+
+.occlusion-box {
+    animation: pulse-opacity 2s infinite;
+}
+
+.occlusion-label {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+/* Cloze */
+.cloze-box {
+    display: inline-block;
+    width: 40px;
+    height: 1.2em;
+    background: #bae6fd;
+    border-bottom: 2px solid #0ea5e9;
+    vertical-align: bottom;
+    margin-left: 0.25rem;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    padding: 6rem 0;
+}
+
+.white-badge {
+    background: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}
+
+.steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+.step-card {
+    background: #ffffff;
+    color: #12121a;
+    border-radius: 30px;
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.step-card.reverse {
+    flex-direction: row-reverse;
+}
+
+.step-content {
+    flex: 1;
+    z-index: 2;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.step-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.step-desc {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+.step-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visual-placeholder {
+    width: 300px;
+    height: 200px;
+    background: #f5f5f7;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ddd;
+    animation: pulse 3s infinite;
+}
+
+/* Scroll Animation classes */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(100px) scale(0.95);
+    animation: revealOnScroll 1s cubic-bezier(0.5, 0, 0, 1) forwards;
+    animation-timeline: view();
+    animation-range: entry 10% cover 25%;
+}
+
+@keyframes revealOnScroll {
+    from {
+        opacity: 0;
+        transform: translateY(100px) scale(0.95);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Use Cases Section */
+.use-cases-section {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+.use-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.use-case-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    padding: 2.5rem;
+    transition: all var(--transition-normal);
+}
+
+.use-case-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
+}
+
+.use-case-badge {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--accent-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+/* Footer */
+.landing-footer {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(var(--rotation, 0deg));
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(var(--rotation, 0deg));
+    }
+}
+
+@keyframes pulse-opacity {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@media (max-width: 968px) {
+    .hero-section {
+        padding-top: 6rem;
+    }
+
+    .hero-cards-container {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .use-cases-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step-card {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 2rem;
+        gap: 2rem;
+    }
+}

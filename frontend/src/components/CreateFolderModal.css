@@ -1,0 +1,129 @@
+/* CreateFolderModal.css */
+.folder-modal {
+    width: 500px;
+    max-width: 90vw;
+    background: #111;
+    /* Very dark background */
+    border: 1px solid #333;
+    padding: 0;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.folder-icon {
+    font-size: 1.2rem;
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+form {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.dark-input {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.dark-input:focus {
+    border-color: #6366F1;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+
+.color-option {
+    aspect-ratio: 3/2;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s;
+}
+
+.color-option:hover {
+    transform: scale(1.05);
+}
+
+.color-option.selected {
+    box-shadow: 0 0 0 2px #fff;
+}
+
+.check-icon {
+    color: white;
+    font-size: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.btn-purple {
+    background: #6366F1;
+    /* Primary purple */
+    border: none;
+}
+
+.btn-purple:hover {
+    background: #4F46E5;
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
+}

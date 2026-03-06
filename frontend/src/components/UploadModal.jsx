@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
+import FolderSelector from './FolderSelector';
 import './Modal.css';
 
-function UploadModal({ onClose, onFileSelect }) {
+function UploadModal({ onClose, onFileSelect, folders = [] }) {
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState('');
+    const [selectedFolderId, setSelectedFolderId] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleDrag = (e) => {
@@ -23,7 +25,7 @@ function UploadModal({ onClose, onFileSelect }) {
 
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile?.type === 'application/pdf') {
-            onFileSelect(droppedFile);
+            onFileSelect(droppedFile, selectedFolderId);
             onClose();
         } else {
             setError('Please upload a PDF file');
@@ -33,7 +35,7 @@ function UploadModal({ onClose, onFileSelect }) {
     const handleFileSelect = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            onFileSelect(selectedFile);
+            onFileSelect(selectedFile, selectedFolderId);
             onClose();
         }
     };
@@ -47,6 +49,13 @@ function UploadModal({ onClose, onFileSelect }) {
                 </div>
 
                 <div className="modal-body">
+                    <FolderSelector
+                        folders={folders}
+                        selectedFolderId={selectedFolderId}
+                        onChange={setSelectedFolderId}
+                        label="Save to folder (optional)"
+                    />
+
                     <div
                         className={`upload-zone ${dragActive ? 'active' : ''}`}
                         onDragEnter={handleDrag}

@@ -3,6 +3,9 @@ import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Landing from './pages/Landing';
+import ImportCards from './pages/ImportCards';
+import StudyPage from './pages/StudyPage';
 
 function ProtectedRoute({ children }) {
     const { isAuthenticated, loading } = useAuth();
@@ -25,16 +28,35 @@ function ProtectedRoute({ children }) {
 function App() {
     return (
         <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
-                path="/"
+                path="/dashboard"
                 element={
                     <ProtectedRoute>
                         <Dashboard />
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path="/import"
+                element={
+                    <ProtectedRoute>
+                        <ImportCards />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/study/:deckId"
+                element={
+                    <ProtectedRoute>
+                        <StudyPage />
+                    </ProtectedRoute>
+                }
+            />
+            {/* Redirect authenticated users from / to /dashboard handled in Landing or by user choice, 
+                but for now catch-all redirects to / (Landing) */}
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
